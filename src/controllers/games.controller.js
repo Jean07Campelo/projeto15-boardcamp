@@ -1,4 +1,5 @@
 import joi from "joi";
+import connection from "../database.js";
 
 const newGameSchema = joi.object({
   name: joi.string().required().empty(" "),
@@ -8,7 +9,7 @@ const newGameSchema = joi.object({
   pricePerDay: joi.number().required().positive(),
 });
 
-function RegisterNewGame(req, res) {
+async function RegisterNewGame(req, res) {
   const { name, image, stockTotal, categoryId, pricePerDay } = req.body;
 
   const validationNewRegister = newGameSchema.validate(req.body, {
@@ -20,6 +21,16 @@ function RegisterNewGame(req, res) {
       (detail) => detail.message
     );
     return res.status(400).send(errors);
+  }
+
+  //validation if categoryId exists
+  const idIsValid = await connection.query(
+    "SELECT * FROM categories WHERE id = $1;",
+    [categoryId]
+  );
+
+  if (idIsValid.rows.length === 0) {
+    return res.status(400).send(`The id "${categoryId}" is invalid`);
   }
 
   res.sendStatus(201);
