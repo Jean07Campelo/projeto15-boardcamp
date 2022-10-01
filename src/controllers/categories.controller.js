@@ -34,4 +34,9 @@ async function RegisterNewCategory(req, res) {
   res.sendStatus(201);
 };
 
-export { RegisterNewCategory };
+async function GetCategories(req, res) {
+  const categories = await connection.query("SELECT * FROM categories;");
+  res.status(200).send(categories.rows);
+}
+
+export { RegisterNewCategory, GetCategories };
