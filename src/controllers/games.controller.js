@@ -49,6 +49,10 @@ async function RegisterNewGame(req, res) {
   );
 
   res.sendStatus(201);
+};
+
+function GetGames (req, res) {
+
 }
 
-export { RegisterNewGame };
+export { RegisterNewGame, GetGames };

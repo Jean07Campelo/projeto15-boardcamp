@@ -9,5 +9,6 @@ router.post("/categories", categoriesController.RegisterNewCategory);
 router.get("/categories", categoriesController.GetCategories);
 
 router.post("/games", gamesController.RegisterNewGame);
+router.get("/games", gamesController.GetGames);
 
 export default router;
