@@ -49,14 +49,24 @@ async function RegisterNewGame(req, res) {
   );
 
   res.sendStatus(201);
-};
+}
 
 async function GetGames(req, res) {
+  const { name } = req.query;
+
   const ListOfgames = await connection.query(
     `SELECT games.*, categories.name as "categoryName" FROM games JOIN categories ON games."categoryId"=categories.id;`
   );
 
-  res.status(200).send(ListOfgames.rows);
+  if (!name) {
+    return res.status(200).send(ListOfgames.rows);
+  }
+
+  const gamesFiltered = await connection.query(
+    `SELECT games.*, categories.name as "categoryName" FROM games JOIN categories ON games."categoryId"=categories.id WHERE games.name LIKE '%${name}%';`
+  );
+
+  res.status(200).send(gamesFiltered.rows);
 }
 
 export { RegisterNewGame, GetGames };
