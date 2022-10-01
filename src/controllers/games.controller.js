@@ -33,6 +33,15 @@ async function RegisterNewGame(req, res) {
     return res.status(400).send(`The id "${categoryId}" is invalid`);
   }
 
+  //validation if name exists
+  const nameGameIsRegistered = await connection.query(
+    `SELECT * FROM games WHERE name = '${name}';`
+  );
+
+  if (nameGameIsRegistered.rows.length > 0) {
+    return res.status(409).send(`Exists a game with name "${name}"`);
+  }
+
   //register new game
   connection.query(
     `INSERT INTO games (name, image, "stockTotal", "categoryId", "pricePerDay") VALUES ($1, $2, $3, $4, $5);`,
