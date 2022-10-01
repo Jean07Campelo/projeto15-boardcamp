@@ -11,11 +11,12 @@ async function RegisterNewCategory(req, res) {
   const validationCategory = categorySchema.validate(req.body, {
     abortEarly: false,
   });
+
   if (validationCategory.error) {
     const errors = validationCategory.error.details.map(
       (detail) => detail.message
     );
-    res.status(400).send(errors);
+    return res.status(400).send(errors);
   }
 
   //validation if category is registered
