@@ -1,4 +1,4 @@
-//import connection from "../database.js";
+import connection from "../database.js";
 import joi from "joi";
 
 const categorieSchema = joi.object({
@@ -17,6 +17,8 @@ function RegisterNewCategorie(req, res) {
     );
     res.status(400).send(errors);
   }
+
+  connection.query("INSERT INTO categories (name) VALUES ($1);", [name]);
 
   res.sendStatus(201);
 }
