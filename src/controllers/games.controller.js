@@ -53,7 +53,7 @@ async function RegisterNewGame(req, res) {
 
 async function GetGames(req, res) {
   const ListOfgames = await connection.query(
-    `SELECT games.*, categories.name as "categoryName", categories.name FROM games JOIN categories ON games."categoryId"=categories.id ;`
+    `SELECT games.*, categories.name as "categoryName" FROM games JOIN categories ON games."categoryId"=categories.id;`
   );
 
   res.status(200).send(ListOfgames.rows);
