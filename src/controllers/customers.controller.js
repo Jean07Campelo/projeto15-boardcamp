@@ -65,7 +65,12 @@ async function RegisterNewClient(req, res) {
 };
 
 async function GetClientByID (req, res) {
+  const { id } = req.params;
   
+  const clienteById = await connection.query("SELECT * FROM customers WHERE id = $1;", [id]);
+
+  res.status(200).send(clienteById.rows[0])
+
 }
 
 export { GetCustomers, RegisterNewClient, GetClientByID };
