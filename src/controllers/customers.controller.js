@@ -4,8 +4,8 @@ import connection from "../database.js";
 const clientSchema = joi.object({
   name: joi.string().required().empty(" "),
   phone: joi.string().required().min(10).max(11),
-  cpf: joi.string().required(),
-  birthday: joi.string().required(),
+  cpf: joi.string().required().min(11).max(11),
+  birthday: joi.date().less("2022-12-31"),
 });
 
 async function GetCustomers(req, res) {
