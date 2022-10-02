@@ -1,4 +1,5 @@
 import joi from "joi";
+import dayjs from "dayjs";
 import connection from "../database.js";
 
 const clientSchema = joi.object({
@@ -26,6 +27,14 @@ async function RegisterNewClient(req, res) {
     );
     return res.status(400).send(errors);
   }
+
+  //validation birthday
+  const birthdayIsValid = dayjs(birthday, "YYYY-MM-DD").isValid();
+  if (!birthdayIsValid) {
+    return res.status(400).send(`${birthday} is invalid`)
+  }
+  
+
 
   res.sendStatus(201);
 }
