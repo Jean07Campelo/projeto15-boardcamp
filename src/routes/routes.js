@@ -13,5 +13,6 @@ router.post("/games", gamesController.RegisterNewGame);
 router.get("/games", gamesController.GetGames);
 
 router.get("/customers", customersController.GetCustomers);
+router.post("/customers", customersController.RegisterNewClient);
 
 export default router;
