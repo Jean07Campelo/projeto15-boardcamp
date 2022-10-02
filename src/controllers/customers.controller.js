@@ -11,6 +11,15 @@ const clientSchema = joi.object({
 
 async function GetCustomers(req, res) {
   const customers = await connection.query("SELECT * FROM customers;");
+  const { cpf } = req.query;
+
+  if (cpf) {
+    const customersFiltered = await connection.query(
+      `SELECT * FROM customers WHERE customers.cpf LIKE '%${cpf}%';`
+    );
+    return res.status(200).send(customersFiltered.rows);
+  }
+
   res.status(200).send(customers.rows);
 }
 
