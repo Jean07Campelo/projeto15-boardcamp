@@ -14,5 +14,6 @@ router.get("/games", gamesController.GetGames);
 
 router.get("/customers", customersController.GetCustomers);
 router.post("/customers", customersController.RegisterNewClient);
+router.get("/customers/:id", customersController.GetClientByID);
 
 export default router;

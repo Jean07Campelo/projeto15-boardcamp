@@ -62,6 +62,10 @@ async function RegisterNewClient(req, res) {
   );
 
   res.sendStatus(201);
+};
+
+async function GetClientByID (req, res) {
+  
 }
 
-export { GetCustomers, RegisterNewClient };
+export { GetCustomers, RegisterNewClient, GetClientByID };
