@@ -77,6 +77,10 @@ async function GetClientByID(req, res) {
   }
 
   res.status(200).send(clienteById.rows[0]);
-}
+};
 
-export { GetCustomers, RegisterNewClient, GetClientByID };
+async function UpdateClientById (req, res) {
+  
+};
+
+export { GetCustomers, RegisterNewClient, GetClientByID, UpdateClientById };
