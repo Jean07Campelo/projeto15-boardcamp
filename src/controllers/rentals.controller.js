@@ -8,7 +8,7 @@ const solicitationRentalSchema = joi.object({
   daysRented: joi.number().required().positive(),
 });
 
-async function GetRentals(req, res) {
+async function RegisterRental(req, res) {
   const { customerId, gameId, daysRented } = req.body;
 
   const validationRental = solicitationRentalSchema.validate(req.body, {
@@ -54,7 +54,8 @@ async function GetRentals(req, res) {
   );
 
   res.sendStatus(201);
-}
+};
 
-export { GetRentals };
-    
+
+
+export { RegisterRental };
