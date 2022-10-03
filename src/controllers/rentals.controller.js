@@ -120,6 +120,10 @@ async function GetRentals(req, res) {
   ON games.id = rentals."gameId";`);
 
   res.status(200).send(rentals.rows);
-}
+};
 
-export { RegisterRental, GetRentals };
+async function FinishRental (req, res) {
+
+};
+
+export { RegisterRental, GetRentals, FinishRental };
