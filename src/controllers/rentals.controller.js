@@ -136,6 +136,11 @@ async function FinishRental(req, res) {
     return res.status(404).send(`Do not exist a rental with id "${id}"`);
   }
 
+  if (rentalExist.rows.returnDate) {
+    return res.status(400).send(`The rental is finish`)
+  }
+
+
   res.sendStatus(200);
 }
 
