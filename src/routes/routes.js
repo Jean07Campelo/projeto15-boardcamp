@@ -19,5 +19,6 @@ router.get("/customers/:id", customersController.GetClientByID);
 router.put("/customers/:id", customersController.UpdateClientById);
 
 router.post("/rentals", rentalsController.RegisterRental);
+router.get("/rentals", rentalsController.GetRentals);
 
 export default router;

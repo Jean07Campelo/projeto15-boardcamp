@@ -56,6 +56,8 @@ async function RegisterRental(req, res) {
   res.sendStatus(201);
 };
 
+async function GetRentals (req, res) {
+    
+}
 
-
-export { RegisterRental };
+export { RegisterRental, GetRentals };
