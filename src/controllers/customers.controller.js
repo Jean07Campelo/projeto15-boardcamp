@@ -94,6 +94,11 @@ async function UpdateClientById(req, res) {
     );
     return res.status(400).send(errors);
   }
+  //validation birthday
+  const birthdayIsValid = dayjs(birthday, "YYYY-MM-DD").isValid();
+  if (!birthdayIsValid) {
+    return res.status(400).send(`${birthday} is invalid`);
+  }
 
   res.sendStatus(200);
 }
