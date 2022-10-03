@@ -48,6 +48,13 @@ async function RegisterRental(req, res) {
 
   const priceRental = priceDay.rows[0].pricePerDay * daysRented;
 
+  const gamesStock = await connection.query(`SELECT games."stockTotal" FROM games WHERE id = $1;`, [gameId]);
+  
+  const stock = gamesStock.rows[0].stockTotal;
+  if (stock === 0) {
+    return res.status(400).send("No stock available")
+  }
+
   await connection.query(
     `INSERT INTO rentals ("customerId", "gameId", "rentDate", "daysRented", "returnDate", "originalPrice", "delayFee") VALUES ($1, $2, $3, $4, $5, $6, $7);`,
     [customerId, gameId, today, daysRented, null, priceRental, null]
