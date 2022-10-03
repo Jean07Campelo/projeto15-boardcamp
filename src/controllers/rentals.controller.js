@@ -104,7 +104,15 @@ async function GetRentals(req, res) {
     return res.status(200).send(gamesRentals.rows);
   }
 
-  res.status(200);
+  const rentals = await connection.query(`SELECT 
+  games.name,
+  games."categoryId", 
+  rentals.* 
+  FROM games  
+  JOIN rentals 
+  ON games.id = rentals."gameId";`);
+
+  res.status(200).send(rentals.rows);
 }
 
 export { RegisterRental, GetRentals };
