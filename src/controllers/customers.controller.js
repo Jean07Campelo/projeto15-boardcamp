@@ -100,6 +100,15 @@ async function UpdateClientById(req, res) {
     return res.status(400).send(`${birthday} is invalid`);
   }
 
+  //validation cpf
+  const documentIsRegistered = await connection.query(
+    "SELECT * FROM customers WHERE cpf = $1;",
+    [cpf]
+  );
+  if (documentIsRegistered.rows.length > 0) {
+    return res.status(409).send(`The cpf "${cpf} is already registered"`);
+  }
+
   res.sendStatus(200);
 }
 
