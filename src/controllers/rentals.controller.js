@@ -48,11 +48,14 @@ async function RegisterRental(req, res) {
 
   const priceRental = priceDay.rows[0].pricePerDay * daysRented;
 
-  const gamesStock = await connection.query(`SELECT games."stockTotal" FROM games WHERE id = $1;`, [gameId]);
-  
+  const gamesStock = await connection.query(
+    `SELECT games."stockTotal" FROM games WHERE id = $1;`,
+    [gameId]
+  );
+
   const stock = gamesStock.rows[0].stockTotal;
   if (stock === 0) {
-    return res.status(400).send("No stock available")
+    return res.status(400).send("No stock available");
   }
 
   await connection.query(
@@ -120,10 +123,20 @@ async function GetRentals(req, res) {
   ON games.id = rentals."gameId";`);
 
   res.status(200).send(rentals.rows);
-};
+}
 
-async function FinishRental (req, res) {
+async function FinishRental(req, res) {
+  const { id } = req.params;
 
-};
+  const rentalExist = await connection.query(
+    `SELECT * FROM rentals WHERE id = $1;`,
+    [id]
+  );
+  if (rentalExist.rows.length === 0) {
+    return res.status(404).send(`Do not exist a rental with id "${id}"`);
+  }
+
+  res.sendStatus(200);
+}
 
 export { RegisterRental, GetRentals, FinishRental };
