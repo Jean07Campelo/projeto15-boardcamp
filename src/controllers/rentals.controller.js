@@ -136,10 +136,16 @@ async function FinishRental(req, res) {
     return res.status(404).send(`Do not exist a rental with id "${id}"`);
   }
 
-  if (rentalExist.rows.returnDate) {
-    return res.status(400).send(`The rental is finish`)
-  }
+  const returnDateRental = rentalExist.rows[0].returnDate;
 
+  if (returnDateRental) {
+    return res.status(400).send(`The rental is finish`);
+  }
+  const today = dayjs(Date.now()).format("YYYY-MM-DD");
+  await connection.query(
+    `UPDATE rentals SET "returnDate" = $1 WHERE id = $2;`,
+    [today, id]
+  );
 
   res.sendStatus(200);
 }
