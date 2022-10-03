@@ -179,6 +179,12 @@ async function DeleteRental(req, res) {
     return res.status(404).send(`The id "${id}" is invalid`);
   }
 
+  const rentalFinalized = rentalExist.rows[0].returnDate;
+  if (rentalFinalized) {
+    return res.status(400).send(`The rental is finalized`);
+  }
+
+
   res.sendStatus(200);
 }
 
