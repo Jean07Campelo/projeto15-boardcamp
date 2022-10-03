@@ -3,6 +3,7 @@ import express from "express";
 import * as categoriesController from "../controllers/categories.controller.js";
 import * as gamesController from "../controllers/games.controller.js";
 import * as customersController from "../controllers/customers.controller.js";
+import * as rentalsController from "../controllers/rentals.controller.js";
 
 const router = express.Router();
 
@@ -16,5 +17,7 @@ router.get("/customers", customersController.GetCustomers);
 router.post("/customers", customersController.RegisterNewClient);
 router.get("/customers/:id", customersController.GetClientByID);
 router.put("/customers/:id", customersController.UpdateClientById);
+
+router.post("/rentals", rentalsController.GetRentals);
 
 export default router;
