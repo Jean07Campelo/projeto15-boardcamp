@@ -166,7 +166,7 @@ async function FinishRental(req, res) {
   ]);
 
   res.sendStatus(200);
-};
+}
 
 async function DeleteRental(req, res) {
   const { id } = req.params;
@@ -180,10 +180,11 @@ async function DeleteRental(req, res) {
   }
 
   const rentalFinalized = rentalExist.rows[0].returnDate;
-  if (rentalFinalized) {
-    return res.status(400).send(`The rental is finalized`);
+  if (!rentalFinalized) {
+    return res.status(400).send(`The rental is not finalized`);
   }
 
+  await connection.query(`DELETE FROM rentals WHERE id = $1;`, [id]);
 
   res.sendStatus(200);
 }
