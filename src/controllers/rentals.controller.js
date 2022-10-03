@@ -1,4 +1,5 @@
 import joi from "joi";
+import dayjs from "dayjs";
 import connection from "../database.js";
 
 const solicitationRentalSchema = joi.object({
@@ -37,6 +38,13 @@ async function GetRentals(req, res) {
   if (gameExisting.rows.length === 0) {
     return res.status(400).send(`Do not exists game with id "${gameId}"`);
   }
+
+  const today = dayjs(Date.now()).format("YYYY-MM-DD");
+  
+  const priceDay = await connection.query(`SELECT "pricePerDay" FROM games WHERE id = $1;`, [gameId]);
+
+  const priceRental = (priceDay.rows[0].pricePerDay) * daysRented;
+
 
   res.sendStatus(201);
 }
