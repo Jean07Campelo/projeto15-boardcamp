@@ -160,6 +160,11 @@ async function FinishRental(req, res) {
 
   const priceTotal = pricePerDay * differenceDays;
 
+  await connection.query(`UPDATE rentals SET "delayFee" = $1 WHERE id = $2;`, [
+    priceTotal,
+    id,
+  ]);
+
   res.sendStatus(200);
 }
 
