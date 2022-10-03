@@ -77,8 +77,13 @@ async function GetRentals(req, res) {
     FROM games JOIN rentals ON games.id = rentals."gameId";`
   );
 
-  res.send(gameRental.rows);
-  //res.status(200).send(rentals.rows);
+  const infos = {
+    ...rentals.rows[0],
+    customer: customerId.rows[0],
+    game: gameRental.rows,
+  };
+
+  res.status(200).send(infos);
 }
 
 export { RegisterRental, GetRentals };
