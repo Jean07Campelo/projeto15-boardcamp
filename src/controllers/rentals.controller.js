@@ -59,31 +59,34 @@ async function RegisterRental(req, res) {
 async function GetRentals(req, res) {
   const { customer } = req.query;
 
-  //info client
-  const customerId = await connection.query(
-    `SELECT id, name FROM customers WHERE id = $1;`,
-    [customer]
-  );
+  if (customer) {
+    //info client
+    const customerId = await connection.query(
+      `SELECT id, name FROM customers WHERE id = $1;`,
+      [customer]
+    );
 
-  //info rentals by clientId
-  const rentals = await connection.query(
-    `SELECT * FROM rentals WHERE "customerId" = $1;`,
-    [customer]
-  );
+    //info rentals by clientId
+    const rentals = await connection.query(
+      `SELECT * FROM rentals WHERE "customerId" = $1;`,
+      [customer]
+    );
 
-  //info games rentals
-  const gameRental = await connection.query(
-    `SELECT games.name, games."categoryId"    
+    //info games rentals
+    const gameRental = await connection.query(
+      `SELECT games.name, games."categoryId"    
     FROM games JOIN rentals ON games.id = rentals."gameId";`
-  );
+    );
 
-  const infos = {
-    ...rentals.rows[0],
-    customer: customerId.rows[0],
-    game: gameRental.rows,
-  };
+    const infos = {
+      ...rentals.rows[0],
+      customer: customerId.rows[0],
+      game: gameRental.rows,
+    };
+    return res.status(200).send(infos);
+  }
 
-  res.status(200).send(infos);
+  res.status(200);
 }
 
 export { RegisterRental, GetRentals };
