@@ -166,6 +166,10 @@ async function FinishRental(req, res) {
   ]);
 
   res.sendStatus(200);
-}
+};
 
-export { RegisterRental, GetRentals, FinishRental };
+async function DeleteRental (req, res) {
+  
+};
+
+export { RegisterRental, GetRentals, FinishRental, DeleteRental };

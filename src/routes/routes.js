@@ -21,5 +21,6 @@ router.put("/customers/:id", customersController.UpdateClientById);
 router.post("/rentals", rentalsController.RegisterRental);
 router.get("/rentals", rentalsController.GetRentals);
 router.post("/rentals/:id/return", rentalsController.FinishRental);
+router.delete("/rentals/:id", rentalsController.DeleteRental);
 
 export default router;
