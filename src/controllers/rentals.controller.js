@@ -168,8 +168,18 @@ async function FinishRental(req, res) {
   res.sendStatus(200);
 };
 
-async function DeleteRental (req, res) {
-  
-};
+async function DeleteRental(req, res) {
+  const { id } = req.params;
+
+  const rentalExist = await connection.query(
+    `SELECT * FROM rentals WHERE id = $1;`,
+    [id]
+  );
+  if (rentalExist.rows.length === 0) {
+    return res.status(404).send(`The id "${id}" is invalid`);
+  }
+
+  res.sendStatus(200);
+}
 
 export { RegisterRental, GetRentals, FinishRental, DeleteRental };
