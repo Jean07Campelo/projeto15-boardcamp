@@ -54,10 +54,12 @@ async function RegisterRental(req, res) {
   );
 
   res.sendStatus(201);
-};
+}
 
-async function GetRentals (req, res) {
-    
+async function GetRentals(req, res) {
+  const rentals = await connection.query(`SELECT * FROM rentals;`);
+
+  res.status(200).send(rentals.rows);
 }
 
 export { RegisterRental, GetRentals };
