@@ -147,6 +147,19 @@ async function FinishRental(req, res) {
     [today, id]
   );
 
+  const returnDateRegistered = rentalExist.rows[0].returnDateRegistered;
+
+  const differenceDays = dayjs(returnDateRegistered).diff(today, "day");
+
+  const gameId = rentalExist.rows[0].gameId;
+  const gameRental = await connection.query(
+    `SELECT * FROM games WHERE id = $1;`,
+    [gameId]
+  );
+  const pricePerDay = gameRental.rows[0].pricePerDay;
+
+  const priceTotal = pricePerDay * differenceDays;
+
   res.sendStatus(200);
 }
 
