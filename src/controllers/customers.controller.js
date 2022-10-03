@@ -5,7 +5,7 @@ import connection from "../database.js";
 const clientSchema = joi.object({
   name: joi.string().required().empty(" "),
   phone: joi.string().required().min(10).max(11),
-  cpf: joi.string().required().min(11).max(11),
+  cpf: joi.string().required().length(11),
   birthday: joi.string().required(),
 });
 
@@ -77,10 +77,25 @@ async function GetClientByID(req, res) {
   }
 
   res.status(200).send(clienteById.rows[0]);
-};
+}
 
-async function UpdateClientById (req, res) {
-  
-};
+async function UpdateClientById(req, res) {
+  const { id } = req.params;
+
+  const { name, phone, cpf, birthday } = req.body;
+
+  const validationNewClient = clientSchema.validate(req.body, {
+    abortEarly: false,
+  });
+
+  if (validationNewClient.error) {
+    const errors = validationNewClient.error.details.map(
+      (detail) => detail.message
+    );
+    return res.status(400).send(errors);
+  }
+
+  res.sendStatus(200);
+}
 
 export { GetCustomers, RegisterNewClient, GetClientByID, UpdateClientById };
