@@ -109,6 +109,12 @@ async function UpdateClientById(req, res) {
     return res.status(409).send(`The cpf "${cpf} is already registered"`);
   }
 
+  //update cliente
+  await connection.query(
+    "UPDATE customers SET name = $1, phone = $2, cpf = $3, birthday = $4 WHERE id = $5;",
+    [name, phone, cpf, birthday, id]
+  );
+
   res.sendStatus(200);
 }
 
