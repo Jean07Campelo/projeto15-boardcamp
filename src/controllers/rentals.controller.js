@@ -57,7 +57,12 @@ async function RegisterRental(req, res) {
 }
 
 async function GetRentals(req, res) {
-  const rentals = await connection.query(`SELECT * FROM rentals;`);
+  const { customer } = req.query;
+  const customerId = await connection.query(`SELECT id, name FROM customers WHERE id = $1;`, [customer])
+    
+  console.log(customerId.rows)
+
+  const rentals = await connection.query(`SELECT * FROM rentals WHERE "customerId" = $1;`, [customer]);
 
   res.status(200).send(rentals.rows);
 }
